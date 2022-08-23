@@ -678,7 +678,7 @@ use tracing_core::{
     metadata::Metadata,
     span,
     subscriber::{Interest, Subscriber},
-    Event, LevelFilter,
+    Dispatch, Event, LevelFilter,
 };
 
 use core::any::TypeId;
@@ -711,6 +711,14 @@ where
     S: Subscriber,
     Self: 'static,
 {
+    /// Performs late initialization when installing this layer as a
+    /// [subscriber].
+    ///
+    /// [subscriber]: tracing_core::Subscriber
+    fn on_register_dispatch(&self, subscriber: &Dispatch) {
+        let _ = subscriber;
+    }
+
     /// Performs late initialization when attaching a `Layer` to a
     /// [`Subscriber`].
     ///
